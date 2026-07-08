@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NWSL Atlanta — Digital Platform Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#0C1F14;
+    --pitch-2:#122A1C;
+    --pitch-3:#183524;
+    --chalk:#F2EFE6;
+    --chalk-dim:rgba(242,239,230,.62);
+    --chalk-faint:rgba(242,239,230,.34);
+    --line:rgba(242,239,230,.16);
+    --peach:#FF9E6D;
+    --gold:#E8C972;
+    --mint:#8FD6A8;
+    --maxw:1080px;
+    --pad:clamp(20px,5vw,48px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation:none!important;transition:none!important;}
+  }
+  body{
+    background:var(--pitch);
+    color:var(--chalk);
+    font-family:'Archivo',system-ui,sans-serif;
+    font-size:clamp(15px,1.6vw,17px);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--peach);color:var(--pitch);}
+  a{color:var(--peach);}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--peach);outline-offset:3px;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);}
+
+  .display{font-family:'Anton',Impact,sans-serif;font-weight:400;letter-spacing:.01em;line-height:.98;text-transform:uppercase;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;}
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(12,31,20,.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--maxw);margin:0 auto;
+    padding:.7rem var(--pad);
+    display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  }
+  .nav-brand{font-family:'Anton',sans-serif;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;color:var(--chalk);text-decoration:none;white-space:nowrap;}
+  .nav-brand span{color:var(--peach);}
+  .nav-links{display:flex;gap:.25rem 1.1rem;flex-wrap:wrap;margin-left:auto;}
+  .nav-links a{
+    font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--chalk-dim);text-decoration:none;padding:.25rem 0;
+  }
+  .nav-links a:hover{color:var(--peach);}
+
+  /* ---------- Hero ---------- */
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--line);}
+  .hero{
+    position:relative;
+    padding:clamp(4rem,12vh,8rem) var(--pad) clamp(3.5rem,10vh,6.5rem);
+    max-width:var(--maxw);margin:0 auto;
+  }
+  .hero-eyebrow{color:var(--peach);margin-bottom:1.4rem;}
+  .hero h1{
+    font-size:clamp(2.9rem,9vw,6.4rem);
+    max-width:14ch;
+  }
+  .hero h1 em{font-style:normal;color:var(--peach);}
+  .hero-sub{
+    margin-top:1.6rem;max-width:56ch;color:var(--chalk-dim);
+    font-size:clamp(1rem,1.9vw,1.2rem);line-height:1.65;
+  }
+  .hero-meta{margin-top:2.4rem;display:flex;gap:2.2rem;flex-wrap:wrap;}
+  .hero-meta div{border-left:2px solid var(--peach);padding-left:.9rem;}
+  .hero-meta .mono{color:var(--chalk-faint);display:block;margin-bottom:.15rem;}
+  .hero-meta strong{font-weight:600;font-size:.95rem;}
+  .center-circle{
+    position:absolute;right:-14vw;top:50%;transform:translateY(-50%);
+    width:clamp(320px,52vw,680px);height:clamp(320px,52vw,680px);
+    pointer-events:none;opacity:.5;
+  }
+  @media(max-width:720px){.center-circle{opacity:.28;right:-45vw;}}
+
+  /* ---------- Sections ---------- */
+  section{padding:clamp(3.5rem,9vh,6.5rem) 0;border-bottom:1px solid var(--line);}
+  .sec-head{margin-bottom:clamp(2rem,5vh,3.2rem);}
+  .sec-head .mono{color:var(--peach);display:block;margin-bottom:.9rem;}
+  .sec-head h2{font-size:clamp(2rem,5.4vw,3.4rem);max-width:20ch;}
+  .sec-head p{margin-top:1.1rem;max-width:60ch;color:var(--chalk-dim);}
+
+  /* ---------- Arc ---------- */
+  .arc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  @media(max-width:860px){.arc-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:520px){.arc-grid{grid-template-columns:1fr;}}
+  .arc-cell{background:var(--pitch);padding:1.5rem 1.3rem 1.7rem;}
+  .arc-cell .mono{color:var(--chalk-faint);display:block;margin-bottom:1rem;}
+  .arc-cell h3{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;font-size:1.25rem;letter-spacing:.02em;margin-bottom:.6rem;}
+  .arc-cell p{font-size:.9rem;color:var(--chalk-dim);}
+  .arc-cell:hover{background:var(--pitch-2);}
+
+  /* ---------- Timeline (signature) ---------- */
+  .timeline{position:relative;padding-left:clamp(1.4rem,5vw,3rem);}
+  .timeline::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:repeating-linear-gradient(to bottom,var(--chalk) 0 14px,transparent 14px 22px);
+    opacity:.75;
+  }
+  .t-year{margin:2.6rem 0 1.4rem;position:relative;}
+  .t-year:first-child{margin-top:0;}
+  .t-year::before{
+    content:"";position:absolute;left:calc(-1 * clamp(1.4rem,5vw,3rem) - 8px);top:.35em;
+    width:19px;height:19px;border-radius:50%;
+    border:3px solid var(--chalk);background:var(--pitch);
+  }
+  .t-year h3{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(1.7rem,4.5vw,2.4rem);letter-spacing:.02em;}
+  .t-year .mono{color:var(--chalk-faint);}
+  .t-item{
+    position:relative;margin-bottom:1.1rem;
+    background:var(--pitch-2);border:1px solid var(--line);
+    padding:1rem 1.2rem;
+    display:flex;gap:1.2rem;align-items:baseline;flex-wrap:wrap;
+  }
+  .t-item::before{
+    content:"";position:absolute;left:calc(-1 * clamp(1.4rem,5vw,3rem) - 3.5px);top:1.35rem;
+    width:10px;height:10px;border-radius:50%;background:var(--peach);
+  }
+  .t-when{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--peach);flex:0 0 9.5rem;}
+  .t-body{flex:1;min-width:230px;}
+  .t-body strong{font-weight:600;display:block;margin-bottom:.15rem;}
+  .t-body p{font-size:.88rem;color:var(--chalk-dim);}
+  .tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.55rem;}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.18rem .5rem;border:1px solid;border-radius:2px;}
+  .tag.web{color:var(--mint);border-color:var(--mint);}
+  .tag.email{color:var(--peach);border-color:var(--peach);}
+  .tag.sms{color:var(--gold);border-color:var(--gold);}
+  .tag.app{color:var(--chalk);border-color:var(--chalk-faint);}
+  .legend{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem;}
+
+  /* ---------- Channel sections ---------- */
+  .channel-head{display:flex;align-items:baseline;gap:1.2rem;flex-wrap:wrap;margin-bottom:.9rem;}
+  .channel-head h2{font-size:clamp(2rem,5.4vw,3.2rem);}
+  .channel-head .mono{color:var(--chalk-faint);}
+  .channel-intro{max-width:62ch;color:var(--chalk-dim);margin-bottom:2.2rem;}
+  .phases{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;}
+  @media(max-width:820px){.phases{grid-template-columns:1fr;}}
+  .phase{
+    border:1px solid var(--line);background:var(--pitch-2);
+    padding:1.5rem 1.4rem 1.6rem;position:relative;
+  }
+  .phase::before{
+    content:"";position:absolute;top:0;left:0;width:100%;height:3px;
+    background:var(--accent,var(--peach));
+  }
+  .phase .mono{display:flex;justify-content:space-between;gap:1rem;color:var(--chalk-faint);margin-bottom:.9rem;}
+  .phase .mono b{color:var(--accent,var(--peach));font-weight:500;}
+  .phase h3{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;font-size:1.3rem;letter-spacing:.02em;margin-bottom:.55rem;}
+  .phase .role{font-size:.88rem;color:var(--chalk-dim);font-style:italic;margin-bottom:.9rem;}
+  .phase ul{list-style:none;margin-bottom:1rem;}
+  .phase li{
+    font-size:.88rem;color:var(--chalk-dim);padding:.28rem 0 .28rem 1.1rem;position:relative;
+  }
+  .phase li::before{content:"";position:absolute;left:0;top:.78em;width:.45rem;height:2px;background:var(--accent,var(--peach));}
+  .phase .outcome{
+    border-top:1px dashed var(--line);padding-top:.8rem;font-size:.85rem;
+  }
+  .phase .outcome span{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent,var(--peach));display:block;margin-bottom:.25rem;}
+  #website .phase{--accent:var(--mint);}
+  #email .phase{--accent:var(--peach);}
+  #sms .phase{--accent:var(--gold);}
+  #app .phase{--accent:var(--chalk);}
+  .note{
+    margin-top:1.4rem;border-left:3px solid var(--peach);
+    background:var(--pitch-2);padding:1rem 1.2rem;font-size:.9rem;color:var(--chalk-dim);
+    max-width:70ch;
+  }
+  .note b{color:var(--chalk);font-weight:600;}
+
+  /* ---------- Orchestration ---------- */
+  .orch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;}
+  @media(max-width:860px){.orch-grid{grid-template-columns:1fr;}}
+  .orch{border:1px solid var(--line);padding:1.5rem 1.4rem;background:var(--pitch-2);}
+  .orch h3{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;font-size:1.15rem;margin-bottom:.7rem;letter-spacing:.02em;}
+  .orch p{font-size:.9rem;color:var(--chalk-dim);}
+  .orch p + p{margin-top:.7rem;}
+
+  /* ---------- Data ---------- */
+  .data-flex{display:flex;gap:2.5rem;flex-wrap:wrap;align-items:flex-start;}
+  .data-flex > p{flex:1 1 380px;color:var(--chalk-dim);max-width:60ch;}
+  .stack{flex:1 1 300px;border:1px solid var(--line);}
+  .stack div{padding:.9rem 1.2rem;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:1rem;align-items:baseline;flex-wrap:wrap;}
+  .stack div:last-child{border-bottom:none;}
+  .stack b{font-weight:600;font-size:.92rem;}
+  .stack span{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--chalk-faint);}
+
+  /* ---------- Measurement ---------- */
+  .learn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;}
+  @media(max-width:720px){.learn-grid{grid-template-columns:1fr;}}
+  .learn{border:1px solid var(--line);background:var(--pitch-2);padding:1.4rem 1.3rem;}
+  .learn .mono{color:var(--gold);display:block;margin-bottom:.6rem;}
+  .learn p{font-size:.9rem;color:var(--chalk-dim);}
+
+  /* ---------- Footer ---------- */
+  footer{padding:3.5rem 0 4rem;}
+  footer .display{font-size:clamp(1.6rem,4.5vw,2.6rem);max-width:24ch;margin-bottom:1rem;}
+  footer p{color:var(--chalk-dim);max-width:60ch;}
+  .foot-meta{margin-top:2.5rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:var(--chalk-faint);}
+</style>
+</head>
+<body>
+
+<nav aria-label="Sections">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top">NWSL <span>ATL</span> · Digital Roadmap</a>
+    <div class="nav-links">
+      <a href="#timeline">Timeline</a>
+      <a href="#website">Website</a>
+      <a href="#email">Email</a>
+      <a href="#sms">SMS</a>
+      <a href="#app">App</a>
+      <a href="#orchestration">Orchestration</a>
+      <a href="#data">Data</a>
+      <a href="#measurement">Measurement</a>
+    </div>
+  </div>
+</nav>
+
+<header id="top">
+  <svg class="center-circle" viewBox="0 0 600 600" aria-hidden="true">
+    <circle cx="300" cy="300" r="260" fill="none" stroke="#F2EFE6" stroke-width="2.5" opacity=".5"/>
+    <circle cx="300" cy="300" r="6" fill="#FF9E6D"/>
+    <line x1="300" y1="0" x2="300" y2="600" stroke="#F2EFE6" stroke-width="2.5" opacity=".35"/>
+  </svg>
+  <div class="hero">
+    <p class="mono hero-eyebrow">NWSL Atlanta · Digital Platform Roadmap · 2026 → 2028</p>
+    <h1 class="display">One club.<br>Four channels.<br><em>Built before kickoff.</em></h1>
+    <p class="hero-sub">Website, email, SMS, and app — a single connected program that turns launch excitement into Founding Members, Founding Members into a community, and a community into a full stadium for the inaugural 2028 season.</p>
+    <div class="hero-meta">
+      <div><span class="mono">Brand launch</span><strong>Fall 2026</strong></div>
+      <div><span class="mono">First app launch</span><strong>As early as March 2027</strong></div>
+      <div><span class="mono">Inaugural season</span><strong>2028</strong></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ARC ================= -->
+<section id="arc" aria-labelledby="arc-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">The shape of the program</span>
+      <h2 id="arc-h" class="display">Every channel runs the same arc</h2>
+      <p>Each platform evolves through the same four movements, on its own timing. Fans experience one story — the club being built around them — no matter where they meet us.</p>
+    </div>
+    <div class="arc-grid">
+      <div class="arc-cell">
+        <span class="mono">Movement I</span>
+        <h3>Tell the story</h3>
+        <p>Introduce the club, capture the launch moment, and convert excitement into a known, permissioned audience.</p>
+      </div>
+      <div class="arc-cell">
+        <span class="mono">Movement II</span>
+        <h3>Build the club</h3>
+        <p>Keep fans inside the club-building process — announcements, community, Founding Member life — between tentpole moments.</p>
+      </div>
+      <div class="arc-cell">
+        <span class="mono">Movement III</span>
+        <h3>Get match ready</h3>
+        <p>Move supporters from anticipation to readiness: schedule, roster, tickets, stadium knowledge, app adoption.</p>
+      </div>
+      <div class="arc-cell">
+        <span class="mono">Movement IV</span>
+        <h3>Own matchday</h3>
+        <p>Serve fans on the day and between matches, then optimize on real behavior for the long term.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TIMELINE ================= -->
+<section id="timeline" aria-labelledby="tl-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Unified timeline</span>
+      <h2 id="tl-h" class="display">The road to first kick</h2>
+      <p>One touchline, every channel. Milestones are tagged by the platforms they activate, so dependencies stay visible across the whole program.</p>
+    </div>
+    <div class="legend" aria-hidden="true">
+      <span class="tag web">Website</span><span class="tag email">Email</span><span class="tag sms">SMS</span><span class="tag app">App</span>
+    </div>
+
+    <div class="timeline">
+      <div class="t-year"><h3 class="display">2026</h3><span class="mono">Launch year — capture the moment</span></div>
+
+      <div class="t-item">
+        <span class="t-when">Jul – Aug</span>
+        <div class="t-body">
+          <strong>FIFA Fan Fest journeys go live</strong>
+          <p>Automated welcome journeys tailored to acquisition source, followed by expanded nurture journeys in mid-August. SMS consent capture is built into Digioh forms and event flows from day one so the channel launches permissioned.</p>
+          <div class="tags"><span class="tag email">Email</span><span class="tag sms">SMS</span></div>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <span class="t-when">Q3 2026</span>
+        <div class="t-body">
+          <strong>Fan Fest cohort expectation-setting</strong>
+          <p>A dedicated introduction sequence for Fan Fest opt-ins who may not realize they joined the club's list — protecting deliverability, building genuine affinity, and setting the standard for how we earn attention.</p>
+          <div class="tags"><span class="tag email">Email</span></div>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <span class="t-when">By Oct 2026</span>
+        <div class="t-body">
+          <strong>App vendor evaluation complete</strong>
+          <p>Platform decision, NWSL requirements, ticketing and account integration needs, content management, and push strategy all locked — pacing defined in partnership with the NWSL team.</p>
+          <div class="tags"><span class="tag app">App</span></div>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <span class="t-when">Fall 2026</span>
+        <div class="t-body">
+          <strong>Brand launch — the tentpole</strong>
+          <p>Brand reveal website goes live with Digioh opt-in capture and Founding Member CTAs. Email delivers the major conversion push; SMS sends its first milestone alert to the permissioned base. Everything in 2026 builds to this moment.</p>
+          <div class="tags"><span class="tag web">Website</span><span class="tag email">Email</span><span class="tag sms">SMS</span></div>
+        </div>
+      </div>
+
+      <div class="t-year"><h3 class="display">2027</h3><span class="mono">Build year — from audience to community</span></div>
+
+      <div class="t-item">
+        <span class="t-when">Early 2027</span>
+        <div class="t-body">
+          <strong>Build-the-club platform expands</strong>
+          <p>News, video, leadership announcements, training facility updates, community and youth soccer content, polls, and event RSVPs keep fans engaged between announcements. Email and SMS amplify each tentpole.</p>
+          <div class="tags"><span class="tag web">Website</span><span class="tag email">Email</span><span class="tag sms">SMS</span></div>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <span class="t-when">As early as Mar 2027</span>
+        <div class="t-body">
+          <strong>Founding Member app launches</strong>
+          <p>High-intent fans get a reason to download a year before first kick: the Founding Member hub, priority access updates, exclusive content, event RSVPs, merch drop alerts, and app-first moments. Launch timing flexes with NWSL approval.</p>
+          <div class="tags"><span class="tag app">App</span><span class="tag email">Email</span><span class="tag sms">SMS</span></div>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <span class="t-when">Mid – Late 2027</span>
+        <div class="t-body">
+          <strong>Pre-season readiness hub</strong>
+          <p>Schedule, roster and player pages, coach and staff content, ticketing information, stadium and matchday guides, supporter section info, and app download prompts move fans from interest to readiness.</p>
+          <div class="tags"><span class="tag web">Website</span><span class="tag email">Email</span><span class="tag sms">SMS</span><span class="tag app">App</span></div>
+        </div>
+      </div>
+
+      <div class="t-year"><h3 class="display">2028</h3><span class="mono">Inaugural season — matchday mode</span></div>
+
+      <div class="t-item">
+        <span class="t-when">Season start</span>
+        <div class="t-body">
+          <strong>All channels in matchday mode</strong>
+          <p>Match center and results on the web; ticket access, matchday guide, and push notifications in the app; matchday logistics via SMS; previews and recaps via email. One coordinated fan experience.</p>
+          <div class="tags"><span class="tag web">Website</span><span class="tag email">Email</span><span class="tag sms">SMS</span><span class="tag app">App</span></div>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <span class="t-when">Ongoing</span>
+        <div class="t-body">
+          <strong>Optimize on real behavior</strong>
+          <p>Personalization, loyalty and rewards, expanded member features, and partner activations — shaped by everything the first two years taught us.</p>
+          <div class="tags"><span class="tag web">Website</span><span class="tag email">Email</span><span class="tag sms">SMS</span><span class="tag app">App</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WEBSITE ================= -->
+<section id="website" aria-labelledby="web-h">
+  <div class="wrap">
+    <div class="channel-head">
+      <h2 id="web-h" class="display">Website</h2>
+      <span class="mono">Channel 01 · Primary owned product</span>
+    </div>
+    <p class="channel-intro">The club's front door from brand launch through first kick — evolving from storytelling and conversion destination to the official matchday hub. Digioh powers on-site opt-in capture and Founding Member conversion at every high-traffic moment.</p>
+    <div class="phases">
+      <div class="phase">
+        <span class="mono"><b>Phase 1</b><span>Fall 2026</span></span>
+        <h3>Brand launch website</h3>
+        <p class="role">Introduce the club identity and convert launch excitement into action.</p>
+        <ul>
+          <li>Brand reveal homepage and club vision storytelling</li>
+          <li>Founding Member CTAs and Digioh opt-in prompts</li>
+          <li>FAQs, fan interest capture, launch news</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Launch traffic becomes database growth and Founding Member conversions.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 2</b><span>Post-launch → 2027</span></span>
+        <h3>Build-the-club platform</h3>
+        <p class="role">Keep fans engaged while the club is being built.</p>
+        <ul>
+          <li>News, video, and photo content areas</li>
+          <li>Leadership announcements and training facility updates</li>
+          <li>Community and youth soccer content, polls, event RSVPs</li>
+          <li>Founding Member education</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Repeat engagement and momentum between major announcements.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 3</b><span>Mid / Late 2027</span></span>
+        <h3>Pre-season readiness hub</h3>
+        <p class="role">Prepare fans for the inaugural season.</p>
+        <ul>
+          <li>Schedule, roster, player, and coach content</li>
+          <li>Ticketing information and Founding Member next steps</li>
+          <li>Stadium and matchday guides, supporter section info</li>
+          <li>Group and premium interest pages, app download prompts</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Fans move from interest to season readiness and app adoption.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 4</b><span>2028 season</span></span>
+        <h3>Inaugural season club hub</h3>
+        <p class="role">The official digital home for match information and club content.</p>
+        <ul>
+          <li>Match center, schedule, results, player profiles</li>
+          <li>Matchday guide, stadium info, ticket and retail links</li>
+          <li>Partner placements where approved, app support CTAs</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Matchday needs, ongoing engagement, ticket conversion, and fan service.</div>
+      </div>
+    </div>
+    <p class="note"><b>Built for the moment:</b> the brand launch will be the site's biggest traffic day until first kick. Launch readiness includes performance under load, accessibility, search visibility for the reveal, and evaluation of Spanish-language content for the Atlanta market.</p>
+  </div>
+</section>
+
+<!-- ================= EMAIL ================= -->
+<section id="email" aria-labelledby="email-h">
+  <div class="wrap">
+    <div class="channel-head">
+      <h2 id="email-h" class="display">Email</h2>
+      <span class="mono">Channel 02 · Primary owned communication</span>
+    </div>
+    <p class="channel-intro">Powered by Iterable — the platform where every fan journey is built — email has been the relationship engine since the club's announcement in November 2025: growing the database, converting supporters into Founding Members, and deepening loyalty from now through the inaugural season.</p>
+    <div class="phases">
+      <div class="phase">
+        <span class="mono"><b>Phase 1</b><span>2026 Q3–Q4</span></span>
+        <h3>Grow</h3>
+        <p class="role">Build a larger, more qualified database while learning who our fans are.</p>
+        <ul>
+          <li>Welcome journeys tailored to acquisition source — Fan Fest, grassroots, Stay Connected, Ticketmaster deposits, paid social</li>
+          <li>Surveys, preference centers, and progressive profiling for zero-party data</li>
+          <li>Consistent club news and behind-the-scenes content into brand launch</li>
+          <li>Expectation-setting sequence for the Fan Fest cohort to protect deliverability</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Anonymous prospects become known, engaged supporters.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 2</b><span>Fall 2026 → 2027</span></span>
+        <h3>Convert</h3>
+        <p class="role">Activate the highest-intent supporters into Founding Members.</p>
+        <ul>
+          <li>Engagement scoring and behavioral signals identify high-propensity audiences</li>
+          <li>Campaigns built on exclusivity, priority access, and participation in club history</li>
+          <li>Urgency around milestones; automated follow-up to reduce deposit drop-off</li>
+          <li>Brand launch as the major conversion moment</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>A healthy Founding Member pipeline ahead of — and beyond — the launch.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 3</b><span>2027 → Pre-season</span></span>
+        <h3>Retain &amp; ready</h3>
+        <p class="role">Treat Founding Members as a distinct audience and carry everyone toward first kick.</p>
+        <ul>
+          <li>Exclusive creative, priority communications, and member-only experiences</li>
+          <li>Tentpole coverage: coach announcements, player signings, facility updates</li>
+          <li>Re-engagement tracks for engaged fans who haven't deposited — no one falls out of the funnel</li>
+          <li>Season readiness: tickets, schedule, app adoption, matchday education</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Founding Members feel like founders; every engaged fan has a path forward.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 4</b><span>2028 season</span></span>
+        <h3>Matchday rhythm</h3>
+        <p class="role">A reliable weekly cadence through the inaugural season.</p>
+        <ul>
+          <li>Match previews, recaps, and club storytelling</li>
+          <li>Ticket and retail conversion moments</li>
+          <li>Member communications and renewals groundwork</li>
+          <li>Segmentation refined by everything learned since 2026</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Email settles into its long-term role: the club's most dependable owned channel.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SMS ================= -->
+<section id="sms" aria-labelledby="sms-h">
+  <div class="wrap">
+    <div class="channel-head">
+      <h2 id="sms-h" class="display">SMS</h2>
+      <span class="mono">Channel 03 · The urgency channel</span>
+    </div>
+    <p class="channel-intro">Reserved for the moments that can't wait: reveals, deadlines, presales, and matchday. Running on Iterable alongside email — so both channels share one journey and one view of the fan — SMS earns its place by being rare, useful, and unmistakably worth the interruption, starting with consent built correctly from day one.</p>
+    <div class="phases">
+      <div class="phase">
+        <span class="mono"><b>Phase 1</b><span>2026 Q3–Q4</span></span>
+        <h3>Consent foundation</h3>
+        <p class="role">Build a fully permissioned SMS audience before the channel sends a single message.</p>
+        <ul>
+          <li>Express written consent captured through Digioh forms, event flows, and deposit journeys</li>
+          <li>Compliance built in: clear disclosures, quiet hours, easy opt-out</li>
+          <li>Value proposition set at opt-in — be first to know, never spammed</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>A clean, compliant SMS base ready for brand launch.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 2</b><span>Fall 2026 → 2027</span></span>
+        <h3>Milestone alerts</h3>
+        <p class="role">Deliver the biggest club moments first, straight to the pocket.</p>
+        <ul>
+          <li>Brand reveal alert as the channel's first send</li>
+          <li>Founding Member deadlines and deposit reminders</li>
+          <li>Major announcements: coach, signings, stadium news</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>SMS becomes the "first to know" channel for the most committed fans.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 3</b><span>Late 2027 → Pre-season</span></span>
+        <h3>Presale &amp; readiness</h3>
+        <p class="role">Drive the ticket moments where minutes matter.</p>
+        <ul>
+          <li>Presale windows and priority access notifications</li>
+          <li>Schedule release and single-match on-sale alerts</li>
+          <li>App download nudges tied to member benefits</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Time-sensitive conversion moments reach fans instantly.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 4</b><span>2028 season</span></span>
+        <h3>Matchday utility</h3>
+        <p class="role">Be genuinely useful on the day.</p>
+        <ul>
+          <li>Matchday logistics: gates, parking, transit, weather changes</li>
+          <li>Kickoff reminders and last-minute ticket opportunities</li>
+          <li>Coordinated with app push so fans never get the same alert twice</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>SMS earns long-term opt-in by being the most useful message of matchday.</div>
+      </div>
+    </div>
+    <p class="note"><b>Why now:</b> SMS consent can't be retrofitted. Capturing it inside this year's Fan Fest, grassroots, and Digioh flows means the channel launches at full strength in Fall 2026 instead of starting from zero in 2027.</p>
+  </div>
+</section>
+
+<!-- ================= APP ================= -->
+<section id="app" aria-labelledby="app-h">
+  <div class="wrap">
+    <div class="channel-head">
+      <h2 id="app-h" class="display">App</h2>
+      <span class="mono">Channel 04 · Engagement &amp; utility hub</span>
+    </div>
+    <p class="channel-intro">The club's owned engagement hub — launching for Founding Members first, then growing into the matchday companion for 2028. Vendor evaluation completes by October 2026, with launch as early as March 2027, paced in partnership with the NWSL.</p>
+    <div class="phases">
+      <div class="phase">
+        <span class="mono"><b>Phase 1</b><span>Now → Oct 2026</span></span>
+        <h3>Strategy &amp; vendor alignment</h3>
+        <p class="role">Lock the foundation before development begins.</p>
+        <ul>
+          <li>Vendor and platform evaluation, complete by October 2026</li>
+          <li>Soccer and venue experience requirements, NWSL approval process</li>
+          <li>Ticketing/account integration, content management, analytics and privacy</li>
+          <li>Push notification strategy defined alongside email and SMS governance</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>A clear product foundation — the app launches with meaningful fan value, not before.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 2</b><span>As early as Mar 2027</span></span>
+        <h3>Founding Member experience</h3>
+        <p class="role">Give high-intent fans a reason to download a year before first kick.</p>
+        <ul>
+          <li>Founding Member hub with deposit and account education</li>
+          <li>Priority access updates and exclusive club-building content</li>
+          <li>Event RSVPs, fan polls, merch drop alerts</li>
+          <li>Push notifications for major milestones, app-first content moments</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Founding Members become engaged digital users before the inaugural season.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 3</b><span>2028 season</span></span>
+        <h3>Inaugural season companion</h3>
+        <p class="role">Useful on matchday, valuable between matches.</p>
+        <ul>
+          <li>Ticket and account access, matchday guide, stadium info</li>
+          <li>Parking and transit, schedule, roster and player content</li>
+          <li>Match previews, push notifications, retail links</li>
+          <li>Fan support and help content, chatbot entry point if supported</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>Matchday readiness, reduced fan friction, and a reliable owned engagement channel.</div>
+      </div>
+      <div class="phase">
+        <span class="mono"><b>Phase 4</b><span>Post-launch</span></span>
+        <h3>Optimization</h3>
+        <p class="role">Improve on fan behavior, feedback, and operational needs.</p>
+        <ul>
+          <li>Personalized content, loyalty and rewards opportunities</li>
+          <li>Expanded Founding Member and member features</li>
+          <li>Improved matchday utility, partner activations where approved</li>
+        </ul>
+        <div class="outcome"><span>Outcome</span>From launch product to long-term fan engagement and service platform.</div>
+      </div>
+    </div>
+    <p class="note"><b>Timing note:</b> the March 2027 launch window is our earliest case; final pacing is defined by how quickly things move with the NWSL team. Website Phase 3's app download prompts flex accordingly, so no channel promises the app before it's live.</p>
+  </div>
+</section>
+
+<!-- ================= ORCHESTRATION ================= -->
+<section id="orchestration" aria-labelledby="orch-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">One program, not four plans</span>
+      <h2 id="orch-h" class="display">How the channels play together</h2>
+      <p>By 2028, a single fan could get the same matchday alert by email, SMS, and push. Governance decided now prevents that — and makes each channel better at its own job.</p>
+    </div>
+    <div class="orch-grid">
+      <div class="orch">
+        <h3>Channel roles</h3>
+        <p>Each message type has a home channel. Email carries story and depth. SMS owns urgency and deadlines. Push owns in-app moments and matchday utility. The website is where everything resolves.</p>
+        <p>When a message could go anywhere, the channel with the clearest job wins — and the others stay quiet.</p>
+      </div>
+      <div class="orch">
+        <h3>Frequency care</h3>
+        <p>A shared view of contact frequency across email, SMS, and push, with tighter limits on SMS than any other channel. Founding Members hear from us more — but always with more value, never just more volume.</p>
+      </div>
+      <div class="orch">
+        <h3>Consent stewardship</h3>
+        <p>Every audience knows what they signed up for. The Fan Fest cohort gets a proper introduction rather than a surprise. SMS consent is explicit and separate from email. Preference centers let fans tune, not just leave.</p>
+      </div>
+      <div class="orch">
+        <h3>Shared dependencies</h3>
+        <p>Ticketing and account integration touches every channel — deposit leads in email, ticket links on the web, account access in the app. Decisions are made once, in the app vendor process, and inherited everywhere.</p>
+      </div>
+      <div class="orch">
+        <h3>Tentpole playbook</h3>
+        <p>Every major moment — reveal, coach, signings, schedule, presale — runs the same coordinated sequence: SMS breaks it, push echoes it in-app, email tells the full story, and the website carries it forward.</p>
+      </div>
+      <div class="orch">
+        <h3>Every fan has a path</h3>
+        <p>Retention isn't only for deposit holders. Engaged fans who haven't converted move into re-engagement tracks — waitlists, single-match interest, community events — so the funnel never dead-ends.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DATA ================= -->
+<section id="data" aria-labelledby="data-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">The foundation underneath</span>
+      <h2 id="data-h" class="display">One fan, one profile</h2>
+    </div>
+    <div class="data-flex">
+      <p>Every touchpoint in this roadmap — a Fan Fest opt-in, a Digioh form fill, a Ticketmaster deposit, an app download — resolves to a single fan profile. Our data team manages this through Microsoft Dynamics CRM and the Hightouch CDP, stitching identity across systems and syncing enriched audiences back into our activation platforms. Marketing builds on that foundation; the data team owns it. That separation keeps this roadmap focused on fan experience while guaranteeing the segmentation and personalization it depends on.</p>
+      <div class="stack" role="list" aria-label="Platform stack">
+        <div role="listitem"><b>Microsoft Dynamics CRM</b><span>System of record</span></div>
+        <div role="listitem"><b>Hightouch CDP</b><span>Identity &amp; audience sync</span></div>
+        <div role="listitem"><b>Iterable</b><span>Email, SMS &amp; fan journeys</span></div>
+        <div role="listitem"><b>Digioh</b><span>On-site capture</span></div>
+        <div role="listitem"><b>Ticketmaster</b><span>Deposits &amp; ticketing</span></div>
+        <div role="listitem"><b>App platform</b><span>Selected Oct 2026</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEASUREMENT ================= -->
+<section id="measurement" aria-labelledby="meas-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Measurement philosophy</span>
+      <h2 id="meas-h" class="display">Aggressive by design.<br>Smarter every quarter.</h2>
+      <p>This is the launch of a brand that has never existed. Rather than anchoring to targets invented before we have a single season of data, we move aggressively, watch closely, and feed what we learn directly into the next campaign. The first two years are the learning engine for everything after.</p>
+    </div>
+    <div class="learn-grid">
+      <div class="learn">
+        <span class="mono">We watch</span>
+        <p>Database growth by source, engagement across channels, Founding Member conversion behavior, content resonance, and app adoption among our most committed fans.</p>
+      </div>
+      <div class="learn">
+        <span class="mono">We learn</span>
+        <p>Which acquisition sources produce fans who stay. Which stories move people to act. When urgency helps and when it burns trust. What Founding Members actually use.</p>
+      </div>
+      <div class="learn">
+        <span class="mono">We apply</span>
+        <p>Every insight feeds forward: welcome journeys tuned by source performance, conversion campaigns shaped by real engagement signals, 2028 season plans built on two years of observed behavior.</p>
+      </div>
+      <div class="learn">
+        <span class="mono">We formalize later</span>
+        <p>Hard benchmarks arrive when we have a baseline worth benchmarking against — after launch behavior, a full conversion cycle, and the first season give us real numbers to hold ourselves to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="mono" style="color:var(--peach);margin-bottom:1.2rem;">NWSL Atlanta · 2026 → 2028</p>
+    <h2 class="display">The club starts here — before the badge, before the roster, before first kick.</h2>
+    <p>Four channels, one program, every fan accounted for. By the time the whistle blows in 2028, the digital club will already be two years old.</p>
+    <div class="foot-meta">
+      <span class="mono">Digital Platform Roadmap</span>
+      <span class="mono">Internal · For stakeholder review</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
